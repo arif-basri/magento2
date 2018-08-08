@@ -9,7 +9,7 @@ before_script:
   - composer install
   
 script:
- - vendor/bin/phpunit --log-junit shippable/testresults/junit.xml -c dev/tests/unit/phpunit.xml.dist
+ - vendor/bin/phpunit --log-junit shippable/testresults/junit.xml -c dev/tests/functional/phpunit.xml.dist
 
 notifications:
   email: false
