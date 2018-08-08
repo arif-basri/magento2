@@ -1,0 +1,14 @@
+language: php
+
+php:
+  - 7.1
+
+before_script:
+  - mkdir -p shippable/codecoverage
+  - mkdir -p shippable/testresults
+
+script:
+ - phpunit --log-junit 
+
+notifications:
+  email: false
