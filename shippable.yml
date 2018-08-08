@@ -6,7 +6,8 @@ php:
 before_script:
   - mkdir -p shippable/codecoverage
   - mkdir -p shippable/testresults
-
+  - composer install
+  
 script:
  - vendor/bin/phpunit --log-junit shippable/testresults/junit.xml -c dev/tests/unit/phpunit.xml.dist
 
