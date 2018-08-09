@@ -1,0 +1,19 @@
+language: none
+#using a custom Docker image
+
+build:
+  pre_ci:
+    - docker build -t firadaboss/magento2:latest shippable
+
+  pre_ci_boot:
+    image_name: firadaboss/magento2    ##replace with your repo and image name
+    image_tag: latest
+    pull: false
+    env: FOO=bar
+    options: "-e HOME=/root"
+
+  ci:
+    - php -f /var/www/html/vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist
+
+notifications:
+  email: false
