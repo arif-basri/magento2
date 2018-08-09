@@ -36,7 +36,8 @@ RUN chsh -s /bin/bash www-data
 #   tar xvf $MAGENTO_VERSION.tar.gz && \
 #   mv magento2-$MAGENTO_VERSION/* magento2-$MAGENTO_VERSION/.htaccess $INSTALL_DIR
 
-RUN mv ../* ../.htaccess $INSTALL_DIR
+RUN cd 
+RUN mv "$SHIPPABLE_BUILD_DIR"/* "$SHIPPABLE_BUILD_DIR"/.htaccess $INSTALL_DIR
 
 RUN chown -R www-data:www-data /var/www
 RUN su www-data -c "cd $INSTALL_DIR && composer install"
