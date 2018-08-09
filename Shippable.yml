@@ -13,6 +13,7 @@ build:
     options: "-e HOME=/root"
 
   ci:
+    - mv "$SHIPPABLE_BUILD_DIR"/* "$SHIPPABLE_BUILD_DIR"/.htaccess /var/www/html
     - php -f /var/www/html/vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist
 
 notifications:
