@@ -3,7 +3,6 @@ language: none
 
 build:  
 
-env:
   global:
     - REGISTRY_URL=registry.hub.docker.com
     - IMAGE_REPO=magento2
