@@ -2,6 +2,8 @@ language: none
 #using a custom Docker image
 
 build:
+  cache: true
+  
   pre_ci:
     - docker build -t firadaboss/magento2:latest shippable
 
@@ -9,7 +11,28 @@ build:
     image_name: firadaboss/magento2    ##replace with your repo and image name
     image_tag: latest
     pull: false
-    env: MYSQL_HOST=db MYSQL_ROOT_PASSWORD=myrootpassword MYSQL_USER=magento MYSQL_PASSWORD=magento MYSQL_DATABASE=magento MAGENTO_LANGUAGE=en_GB MAGENTO_TIMEZONE=Pacific/Auckland MAGENTO_DEFAULT_CURRENCY=NZD MAGENTO_URL=http://local.magento MAGENTO_BACKEND_FRONTNAME=admin MAGENTO_USE_SECURE=0 MAGENTO_BASE_URL_SECURE=0 MAGENTO_USE_SECURE_ADMIN=0 MAGENTO_ADMIN_FIRSTNAME=Admin MAGENTO_ADMIN_LASTNAME=MyStore MAGENTO_ADMIN_EMAIL=amdin@example.com MAGENTO_ADMIN_USERNAME=admin MAGENTO_ADMIN_PASSWORD=magentorocks1 
+#    env: 
+#      - MYSQL_HOST=db
+#        MYSQL_ROOT_PASSWORD=myrootpassword
+#        MYSQL_USER=magento
+#        MYSQL_PASSWORD=magento
+#        MYSQL_DATABASE=magento
+#        
+#        MAGENTO_LANGUAGE=en_GB
+#        MAGENTO_TIMEZONE=Pacific/Auckland
+#        MAGENTO_DEFAULT_CURRENCY=NZD
+#        MAGENTO_URL=http://local.magento
+#        MAGENTO_BACKEND_FRONTNAME=admin
+#        MAGENTO_USE_SECURE=0
+#        MAGENTO_BASE_URL_SECURE=0
+#        MAGENTO_USE_SECURE_ADMIN=0
+#        
+#        MAGENTO_ADMIN_FIRSTNAME=Admin
+#        MAGENTO_ADMIN_LASTNAME=MyStore
+#        MAGENTO_ADMIN_EMAIL=amdin@example.com
+#        MAGENTO_ADMIN_USERNAME=admin
+#        MAGENTO_ADMIN_PASSWORD=magentorocks1
+
     options: "-e HOME=/root"
 
   ci:
@@ -62,7 +85,7 @@ build:
 # ADD docker/crontab /etc/cron.d/magento2-cron
 # RUN chmod 0644 /etc/cron.d/magento2-cron \
 #     && crontab -u www-data /etc/cron.d/magento2-cron    
-    - install-magento
+    #- install-magento
     #- php -f vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
 
 notifications:
