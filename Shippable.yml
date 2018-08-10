@@ -21,6 +21,10 @@ build:
     - chown -R www-data:www-data /var/www
     - su www-data -c "cd $INSTALL_DIR && composer install"
     - su www-data -c "cd $INSTALL_DIR && composer config repositories.magento composer https://repo.magento.com/"  
+    - cd $INSTALL_DIR \
+      && find . -type d -exec chmod 770 {} \; \
+      && find . -type f -exec chmod 660 {} \; \
+      && chmod u+x bin/magento    
 # RUN chown -R www-data:www-data /var/www
 # RUN su www-data -c "cd $INSTALL_DIR && composer install"
 # RUN su www-data -c "cd $INSTALL_DIR && composer config repositories.magento composer https://repo.magento.com/"  
@@ -30,23 +34,35 @@ build:
 #     && find . -type f -exec chmod 660 {} \; \
 #     && chmod u+x bin/magento
 # 
+    - cp docker/install-magento /usr/local/bin/install-magento
+    - chmod +x /usr/local/bin/install-magento
 # COPY docker/install-magento /usr/local/bin/install-magento
 # RUN chmod +x /usr/local/bin/install-magento
 # 
+    - cp docker/install-sampledata /usr/local/bin/install-sampledata
+    - chmod +x /usr/local/bin/install-sampledata
 # COPY docker/install-sampledata /usr/local/bin/install-sampledata
 # RUN chmod +x /usr/local/bin/install-sampledata
 # 
+    - a2enmod rewrite
+    - echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini
 # RUN a2enmod rewrite
 # RUN echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini
 # 
+    - apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # 
+    - cd /var/www/html
 # WORKDIR $INSTALL_DIR
 # 
 # # Add cron job
+    - cp docker/crontab /etc/cron.d/magento2-cron
+    - chmod 0644 /etc/cron.d/magento2-cron \
+      && crontab -u www-data /etc/cron.d/magento2-cron    
 # ADD docker/crontab /etc/cron.d/magento2-cron
 # RUN chmod 0644 /etc/cron.d/magento2-cron \
 #     && crontab -u www-data /etc/cron.d/magento2-cron    
+
     #- php -f /var/www/html/vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
 
 notifications:
