@@ -2,7 +2,6 @@ language: none
 #using a custom Docker image
 
 build:  
-  cache: true
 
 env:
   global:
