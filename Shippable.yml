@@ -10,11 +10,11 @@ env:
 build:   
     
   pre_ci:
-    - docker build -t $PROJECT_NAME/$IMAGE_REPO:latest shippable
+    - docker build -t $PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER shippable
 
   pre_ci_boot:
     image_name: $PROJECT_NAME/$IMAGE_REPO    
-    image_tag: latest
+    image_tag: $BRANCH.$BUILD_NUMBER
     pull: false
 #    env: 
 #      - MYSQL_HOST=db
@@ -63,8 +63,8 @@ build:
     - crontab -u www-data /etc/cron.d/magento2-cron    
     
   post_ci:
-    - docker commit $SHIPPABLE_CONTAINER_NAME $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER    
-    - sleep 10
+    #- docker commit $SHIPPABLE_CONTAINER_NAME $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER    
+    #- sleep 10
     #- docker push firadaboss/magento2:latest
     #- docker push $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER     
     #- docker build -t $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER .    
