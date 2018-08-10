@@ -2,6 +2,8 @@ language: none
 #using a custom Docker image
 
 build:  
+  cache: true
+  
   pre_ci:
     - docker build -t firadaboss/magento2:latest shippable
 
