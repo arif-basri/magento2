@@ -62,8 +62,8 @@ build:
 # ADD docker/crontab /etc/cron.d/magento2-cron
 # RUN chmod 0644 /etc/cron.d/magento2-cron \
 #     && crontab -u www-data /etc/cron.d/magento2-cron    
-
-    #- php -f /var/www/html/vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
+    - install-magento
+    - php -f vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
 
 notifications:
   email: false
