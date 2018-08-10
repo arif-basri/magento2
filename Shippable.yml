@@ -3,7 +3,15 @@ language: none
 
 build:  
   cache: true
-  
+
+  # using pre-defined build variables
+# full list http://docs.shippable.com/ci/advancedOptions/environmentVariables/
+env:
+  global:
+    - REGISTRY_URL=registry.hub.docker.com
+    - IMAGE_REPO=magento2
+    - PROJECT_NAME=firadaboss  
+    
   pre_ci:
     - docker build -t firadaboss/magento2:latest shippable
 
@@ -88,8 +96,11 @@ build:
     #- install-magento
     #- php -f vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
   post_ci:
-    - docker commit $SHIPPABLE_CONTAINER_NAME firadaboss/magento2:latest
+    - docker commit $SHIPPABLE_CONTAINER_NAME $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER
+    #- docker build -t $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER .        
     - docker push firadaboss/magento2:latest
+    #- docker tag drydock $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO
+    - docker push $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER     
 
   integrations:
     hub:
