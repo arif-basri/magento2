@@ -42,33 +42,35 @@ build:
 
   ci:
     - mv $SHIPPABLE_BUILD_DIR/* $SHIPPABLE_BUILD_DIR/.htaccess /var/www/html
-    - chown -R www-data:www-data /var/www
-    - su www-data -c "cd $INSTALL_DIR && composer install"
-    - su www-data -c "cd $INSTALL_DIR && composer config repositories.magento composer https://repo.magento.com/"  
-    - cd /var/www/html 
-    - find . -type d -exec chmod 770 {} \;
-    - find . -type f -exec chmod 660 {} \;
-    - chmod u+x bin/magento    
-    - cp shippable/docker/install-magento /usr/local/bin/install-magento
-    - chmod +x /usr/local/bin/install-magento
-    - cp shippable/docker/install-sampledata /usr/local/bin/install-sampledata
-    - chmod +x /usr/local/bin/install-sampledata
-    - a2enmod rewrite
-    - echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini
-    - cd /var/www/html
+#    - chown -R www-data:www-data /var/www
+#    - su www-data -c "cd $INSTALL_DIR && composer install"
+#    - su www-data -c "cd $INSTALL_DIR && composer config repositories.magento composer https://repo.magento.com/"  
+#    - cd /var/www/html 
+#    - find . -type d -exec chmod 770 {} \;
+#    - find . -type f -exec chmod 660 {} \;
+#    - chmod u+x bin/magento    
+#    - cp shippable/docker/install-magento /usr/local/bin/install-magento
+#    - chmod +x /usr/local/bin/install-magento
+#    - cp shippable/docker/install-sampledata /usr/local/bin/install-sampledata
+#    - chmod +x /usr/local/bin/install-sampledata
+#    - a2enmod rewrite
+#    - echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini
+#    - cd /var/www/html
 
 # # Add cron job
-    - cp shippable/docker/crontab /etc/cron.d/magento2-cron
-    - chmod 0644 /etc/cron.d/magento2-cron 
-    - crontab -u www-data /etc/cron.d/magento2-cron    
+#    - cp shippable/docker/crontab /etc/cron.d/magento2-cron
+#    - chmod 0644 /etc/cron.d/magento2-cron 
+#    - crontab -u www-data /etc/cron.d/magento2-cron    
     
   post_ci:
-    - docker commit $SHIPPABLE_CONTAINER_NAME $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER    
+    - docker commit $SHIPPABLE_CONTAINER_NAME $PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER    
+    - docker push $PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER         
     #- sleep 10
     #- docker push firadaboss/magento2:latest
     #- docker push $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER     
-    #- docker build -t $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER .    
-    - docker push $PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER     
+    #- docker build -t $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER shippable    
+    #- docker tag $PROJECT_NAME/$IMAGE_REPO 
+
 
   integrations:
     hub:
