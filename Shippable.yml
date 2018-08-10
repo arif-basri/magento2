@@ -14,7 +14,7 @@ build:
 
   ci:
     - mv "$SHIPPABLE_BUILD_DIR"/* "$SHIPPABLE_BUILD_DIR"/.htaccess /var/www/html
-    - php -f /var/www/html/vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
+    #- php -f /var/www/html/vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
 
 notifications:
   email: false
