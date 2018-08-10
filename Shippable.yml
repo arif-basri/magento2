@@ -10,7 +10,7 @@ env:
 build:   
     
   pre_ci:
-    - docker build -t firadaboss/magento2:latest shippable
+    - docker build -t $PROJECT_NAME/$IMAGE_REPO:latest shippable
 
   pre_ci_boot:
     image_name: $PROJECT_NAME/$IMAGE_REPO    
@@ -64,6 +64,7 @@ build:
     
   post_ci:
     - docker commit $SHIPPABLE_CONTAINER_NAME $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER    
+    - sleep 10
     #- docker push firadaboss/magento2:latest
     #- docker push $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER     
     #- docker build -t $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER .    
