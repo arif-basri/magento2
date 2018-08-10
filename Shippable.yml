@@ -1,12 +1,13 @@
 language: none
 #using a custom Docker image
 
-build:  
-
+env:
   global:
     - REGISTRY_URL=registry.hub.docker.com
     - IMAGE_REPO=magento2
-    - PROJECT_NAME=firadaboss  
+    - PROJECT_NAME=firadaboss 
+    
+build:   
     
   pre_ci:
     - docker build -t firadaboss/magento2:latest shippable
