@@ -89,6 +89,7 @@ build:
     #- php -f vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
   post_ci:
     - docker commit $SHIPPABLE_CONTAINER_NAME firadaboss/magento2:latest
+    - docker tag latest firadaboss/magento2
     - docker push firadaboss/magento2:latest
 
   integrations:
