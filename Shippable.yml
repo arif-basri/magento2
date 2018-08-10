@@ -34,12 +34,12 @@ build:
 #     && find . -type f -exec chmod 660 {} \; \
 #     && chmod u+x bin/magento
 # 
-    - cp docker/install-magento /usr/local/bin/install-magento
+    - cp shippable/docker/install-magento /usr/local/bin/install-magento
     - chmod +x /usr/local/bin/install-magento
 # COPY docker/install-magento /usr/local/bin/install-magento
 # RUN chmod +x /usr/local/bin/install-magento
 # 
-    - cp docker/install-sampledata /usr/local/bin/install-sampledata
+    - cp shippable/docker/install-sampledata /usr/local/bin/install-sampledata
     - chmod +x /usr/local/bin/install-sampledata
 # COPY docker/install-sampledata /usr/local/bin/install-sampledata
 # RUN chmod +x /usr/local/bin/install-sampledata
@@ -56,7 +56,7 @@ build:
 # WORKDIR $INSTALL_DIR
 # 
 # # Add cron job
-    - cp docker/crontab /etc/cron.d/magento2-cron
+    - cp shippable/docker/crontab /etc/cron.d/magento2-cron
     - chmod 0644 /etc/cron.d/magento2-cron \
       && crontab -u www-data /etc/cron.d/magento2-cron    
 # ADD docker/crontab /etc/cron.d/magento2-cron
