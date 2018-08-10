@@ -4,8 +4,6 @@ language: none
 build:  
   cache: true
 
-  # using pre-defined build variables
-# full list http://docs.shippable.com/ci/advancedOptions/environmentVariables/
 env:
   global:
     - REGISTRY_URL=registry.hub.docker.com
@@ -45,10 +43,6 @@ env:
 
   ci:
     - mv $SHIPPABLE_BUILD_DIR/* $SHIPPABLE_BUILD_DIR/.htaccess /var/www/html
-# RUN cd /tmp && \ 
-#   curl https://codeload.github.com/magento/magento2/tar.gz/$MAGENTO_VERSION -o $MAGENTO_VERSION.tar.gz && \
-#   tar xvf $MAGENTO_VERSION.tar.gz && \
-#   mv magento2-$MAGENTO_VERSION/* magento2-$MAGENTO_VERSION/.htaccess $INSTALL_DIR
     - chown -R www-data:www-data /var/www
     - su www-data -c "cd $INSTALL_DIR && composer install"
     - su www-data -c "cd $INSTALL_DIR && composer config repositories.magento composer https://repo.magento.com/"  
@@ -56,50 +50,22 @@ env:
     - find . -type d -exec chmod 770 {} \;
     - find . -type f -exec chmod 660 {} \;
     - chmod u+x bin/magento    
-# RUN chown -R www-data:www-data /var/www
-# RUN su www-data -c "cd $INSTALL_DIR && composer install"
-# RUN su www-data -c "cd $INSTALL_DIR && composer config repositories.magento composer https://repo.magento.com/"  
-# 
-# RUN cd $INSTALL_DIR \
-#     && find . -type d -exec chmod 770 {} \; \
-#     && find . -type f -exec chmod 660 {} \; \
-#     && chmod u+x bin/magento
-# 
     - cp shippable/docker/install-magento /usr/local/bin/install-magento
     - chmod +x /usr/local/bin/install-magento
-# COPY docker/install-magento /usr/local/bin/install-magento
-# RUN chmod +x /usr/local/bin/install-magento
-# 
     - cp shippable/docker/install-sampledata /usr/local/bin/install-sampledata
     - chmod +x /usr/local/bin/install-sampledata
-# COPY docker/install-sampledata /usr/local/bin/install-sampledata
-# RUN chmod +x /usr/local/bin/install-sampledata
-# 
     - a2enmod rewrite
     - echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini
-# RUN a2enmod rewrite
-# RUN echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini
-# 
-#    - apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-# RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-# 
     - cd /var/www/html
-# WORKDIR $INSTALL_DIR
-# 
+
 # # Add cron job
     - cp shippable/docker/crontab /etc/cron.d/magento2-cron
     - chmod 0644 /etc/cron.d/magento2-cron 
     - crontab -u www-data /etc/cron.d/magento2-cron    
-# ADD docker/crontab /etc/cron.d/magento2-cron
-# RUN chmod 0644 /etc/cron.d/magento2-cron \
-#     && crontab -u www-data /etc/cron.d/magento2-cron    
-    #- install-magento
-    #- php -f vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
+    
   post_ci:
-    - docker commit $SHIPPABLE_CONTAINER_NAME $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER
-    #- docker build -t $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER .        
+    - docker commit $SHIPPABLE_CONTAINER_NAME $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER    
     - docker push firadaboss/magento2:latest
-    #- docker tag drydock $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO
     - docker push $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER     
 
   integrations:
