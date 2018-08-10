@@ -21,7 +21,7 @@ build:
     - chown -R www-data:www-data /var/www
     - su www-data -c "cd $INSTALL_DIR && composer install"
     - su www-data -c "cd $INSTALL_DIR && composer config repositories.magento composer https://repo.magento.com/"  
-    - cd $INSTALL_DIR \
+    - cd /var/www/html \
       && find . -type d -exec chmod 770 {} \; \
       && find . -type f -exec chmod 660 {} \; \
       && chmod u+x bin/magento    
