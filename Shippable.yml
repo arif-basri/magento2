@@ -49,7 +49,7 @@ build:
 # RUN a2enmod rewrite
 # RUN echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini
 # 
-    - apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#    - apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # 
     - cd /var/www/html
@@ -57,8 +57,8 @@ build:
 # 
 # # Add cron job
     - cp shippable/docker/crontab /etc/cron.d/magento2-cron
-    - chmod 0644 /etc/cron.d/magento2-cron \
-      && crontab -u www-data /etc/cron.d/magento2-cron    
+    - chmod 0644 /etc/cron.d/magento2-cron 
+    - crontab -u www-data /etc/cron.d/magento2-cron    
 # ADD docker/crontab /etc/cron.d/magento2-cron
 # RUN chmod 0644 /etc/cron.d/magento2-cron \
 #     && crontab -u www-data /etc/cron.d/magento2-cron    
