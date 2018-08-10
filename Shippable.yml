@@ -63,12 +63,12 @@ build:
     - crontab -u www-data /etc/cron.d/magento2-cron    
     
   post_ci:
-    #- docker commit $SHIPPABLE_CONTAINER_NAME $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER    
+    - docker commit $SHIPPABLE_CONTAINER_NAME $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER    
     #- sleep 10
     #- docker push firadaboss/magento2:latest
     #- docker push $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER     
     #- docker build -t $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER .    
-    - docker push $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER     
+    - docker push $PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER     
 
   integrations:
     hub:
