@@ -91,7 +91,7 @@ build:
 
   integrations:
     hub:
-      - integrationName: docker    #replace with your subscription integration name
+      - integrationName: docker_integration    #replace with your subscription integration name
         type: dockerRegistryLogin    
         
 notifications:
