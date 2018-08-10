@@ -87,6 +87,13 @@ build:
 #     && crontab -u www-data /etc/cron.d/magento2-cron    
     #- install-magento
     #- php -f vendor/bin/phpunit -- --log-junit shippable/testresults/junit.xml -c dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
+  post_ci:
+    - docker push firadaboss/magento2:latest
 
+  integrations:
+    hub:
+      - integrationName: docker    #replace with your subscription integration name
+        type: dockerRegistryLogin    
+        
 notifications:
   email: false
