@@ -15,7 +15,7 @@ build:
   pre-ci:
     
   pre_ci_boot:
-    options: "-v /app:/app"
+    options: "-v /test:/test"
 
   ci:
     - cp -R . /app    #copy checked out gitrepo from build container into build host for sharing with other containers spawned by the docker-compose    
@@ -27,11 +27,11 @@ build:
     - docker exec fv_web_1 sh -c 'cp /var/www/html/install.sh /usr/local/bin/setup-env && chmod +x /usr/local/bin/setup-env'
     - docker exec fv_web_1 setup-env
     - docker exec fv_web_1 install-magento
-    - docker exec fv_web_1 mkdir -p /app/testresults
-    - docker exec fv_web_1 php -f /var/www/html/vendor/bin/phpunit -- --log-junit /app/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
+    - docker exec fv_web_1 mkdir -p /test/testresults
+    - docker exec fv_web_1 php -f /var/www/html/vendor/bin/phpunit -- --log-junit /test/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
 
   post_ci:
-    - cp -R /app/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
+    - cp -R /test/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
     - docker commit fv_web_1 $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER
     - docker push $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER 
     - docker-compose -p fv -f shippable/docker-compose-shippable.yml down    
@@ -39,7 +39,7 @@ build:
   
   on_failure:
     #- docker stop fv_web_1
-    - cp -R /app/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
+    - cp -R /test/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
     - docker-compose -p fv -f shippable/docker-compose-shippable.yml down
 
 integrations:
