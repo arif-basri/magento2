@@ -6,11 +6,11 @@ php:
 env:
   global:
     - REGISTRY_URL=registry.hub.docker.com
-    - IMAGE_REPO=magento3
+    - IMAGE_REPO=magento2_build
     - PROJECT_NAME=firadaboss
     
 build:  
-#  cache: true
+  cache: true
   
   pre-ci:
     
@@ -29,15 +29,16 @@ build:
     - docker exec fv_web_1 php -f /var/www/html/vendor/bin/phpunit -- --log-junit /test_web/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
 
   post_ci:
-    - cp -R /test_host/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
+    - cp -R /test_container/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
     - docker commit fv_web_1 $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER
     - docker push $REGISTRY_URL/$PROJECT_NAME/$IMAGE_REPO:$BRANCH.$BUILD_NUMBER 
     - docker-compose -p fv -f shippable/docker-compose-shippable.yml down    
     
   
   on_failure:
+    - cp -R /test_container/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
     - docker-compose -p fv -f shippable/docker-compose-shippable.yml down
-    - cp -R /test_host/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
+
     
 
 integrations:
