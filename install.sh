@@ -11,15 +11,15 @@ cd $INSTALL_DIR
 find . -type d -exec chmod 770 {} \;
 find . -type f -exec chmod 660 {} \;
 chmod u+x bin/magento    
-cp shippable/docker/install-magento /usr/local/bin/install-magento
+cp shippable/developer/install-magento /usr/local/bin/install-magento
 chmod +x /usr/local/bin/install-magento
-cp shippable/docker/install-sampledata /usr/local/bin/install-sampledata
+cp shippable/developer/install-sampledata /usr/local/bin/install-sampledata
 chmod +x /usr/local/bin/install-sampledata
 a2enmod rewrite
 echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini
 cd $INSTALL_DIR
 
 # Add cron job
-cp shippable/docker/crontab /etc/cron.d/magento2-cron
+cp shippable/developer/crontab /etc/cron.d/magento2-cron
 chmod 0644 /etc/cron.d/magento2-cron 
 crontab -u www-data /etc/cron.d/magento2-cron   
