@@ -36,8 +36,9 @@ build:
     
   
   on_failure:
-    - cp -R /test/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
     - docker-compose -p fv -f shippable/docker-compose-shippable.yml down
+    - cp -R /test/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
+    
 
 integrations:
   hub:
