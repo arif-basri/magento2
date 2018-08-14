@@ -19,10 +19,10 @@ build:
 
   ci:
     - cp -R . /app    #copy checked out gitrepo from build container into build host for sharing with other containers spawned by the docker-compose    
-    #- docker-compose -p fv -f shippable/docker-compose-shippable.yml up -d web db
-    - docker build -t fv_web shippable -f shippable/developer/Dockerfile
-    - docker run -d --env-file shippable/env --name fv_web_1 --rm -v /app:/var/www/html fv_web
-    - sleep 10
+    - docker-compose -p fv -f shippable/docker-compose-shippable.yml up -d web db
+    #- docker build -t fv_web shippable -f shippable/developer/Dockerfile
+    #- docker run -d --env-file shippable/env --name fv_web_1 --rm -v /app:/var/www/html fv_web
+    #- sleep 10
     - docker exec fv_web_1 sh -c 'pwd && cd /var/www/html && ls'
     - docker exec fv_web_1 sh -c 'cp /var/www/html/install.sh /usr/local/bin/setup-env && chmod +x /usr/local/bin/setup-env'
     - docker exec fv_web_1 setup-env
@@ -38,7 +38,7 @@ build:
     
   
   on_failure:
-    - docker stop fv_web_1
+    #- docker stop fv_web_1
     - cp -R /app/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
     - docker-compose -p fv -f shippable/docker-compose-shippable.yml down
 
