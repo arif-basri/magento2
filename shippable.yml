@@ -15,7 +15,7 @@ build:
   pre-ci:
     
   pre_ci_boot:
-    options: "-v /test:/test"
+    options: "-v /test:/test -v /app:/var/www/html"
 
   ci:
     - cp -R . /app    #copy checked out gitrepo from build container into build host for sharing with other containers spawned by the docker-compose    
