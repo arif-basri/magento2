@@ -15,7 +15,7 @@ cp shippable/developer/install-magento /usr/local/bin/install-magento
 chmod +x /usr/local/bin/install-magento
 cp shippable/developer/install-sampledata /usr/local/bin/install-sampledata
 chmod +x /usr/local/bin/install-sampledata
-a2enmod rewrite
+
 echo "memory_limit=2048M" > /usr/local/etc/php/conf.d/memory-limit.ini
 cd $INSTALL_DIR
 
@@ -23,3 +23,5 @@ cd $INSTALL_DIR
 cp shippable/developer/crontab /etc/cron.d/magento2-cron
 chmod 0644 /etc/cron.d/magento2-cron 
 crontab -u www-data /etc/cron.d/magento2-cron   
+
+a2enmod rewrite
