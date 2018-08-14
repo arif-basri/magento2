@@ -24,7 +24,7 @@ build:
     - docker exec fv_web_1 sh -c 'cp /var/www/html/install.sh /usr/local/bin/setup-env && chmod +x /usr/local/bin/setup-env'
     - docker exec fv_web_1 setup-env
     - docker exec fv_web_1 install-magento
-    - docker exec fv_web_1 install-sampledata
+    #- docker exec fv_web_1 install-sampledata
     - docker exec fv_web_1 mkdir -p /test_web/testresults
     - docker exec fv_web_1 php -f /var/www/html/vendor/bin/phpunit -- --log-junit /test_web/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
 
