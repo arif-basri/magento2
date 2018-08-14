@@ -4,7 +4,7 @@ language: none
 env:
   global:
     - REGISTRY_URL=registry.hub.docker.com
-    - IMAGE_REPO=magento2
+    - IMAGE_REPO=magento3
     - PROJECT_NAME=firadaboss 
     
 build:   
