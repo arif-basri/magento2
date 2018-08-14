@@ -2,7 +2,7 @@
 
 INSTALL_DIR="/var/www/html"
 
-echo "hello world"
+#echo "hello world"
 
 chown -R www-data:www-data /var/www
 su www-data -c "cd $INSTALL_DIR && composer install"
