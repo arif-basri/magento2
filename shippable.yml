@@ -20,13 +20,11 @@ build:
   ci:
     - cp -R . /app    #copy checked out gitrepo from build container into build host for sharing with other containers spawned by the docker-compose    
     - docker-compose -p fv -f shippable/docker-compose-shippable.yml up -d web db
-    #- docker build -t fv_web shippable -f shippable/developer/Dockerfile
-    #- docker run -d --env-file shippable/env --name fv_web_1 --rm -v /app:/var/www/html fv_web
-    #- sleep 10
     - docker exec fv_web_1 sh -c 'pwd && cd /var/www/html && ls'
     - docker exec fv_web_1 sh -c 'cp /var/www/html/install.sh /usr/local/bin/setup-env && chmod +x /usr/local/bin/setup-env'
     - docker exec fv_web_1 setup-env
     - docker exec fv_web_1 install-magento
+    - docker exec fv_web_1 install-sampledata
     - docker exec fv_web_1 mkdir -p /test/testresults
     - docker exec fv_web_1 php -f /var/www/html/vendor/bin/phpunit -- --log-junit /test/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
 
@@ -38,12 +36,10 @@ build:
     
   
   on_failure:
-    #- docker stop fv_web_1
     - cp -R /test/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
     - docker-compose -p fv -f shippable/docker-compose-shippable.yml down
 
 integrations:
-  # adding private docker hub integration so that credentials are available to CI Job
   hub:
     - integrationName: docker_integration
       type: dockerRegistryLogin
