@@ -26,7 +26,7 @@ build:
     - docker exec fv_web_1 install-magento
     - docker exec fv_web_1 install-sampledata
     - docker exec fv_web_1 mkdir -p /test_web/testresults
-    - docker exec fv_web_1 php -f /var/www/html/vendor/bin/phpunit -- --log-junit /test_web/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist #--filter ToolbarEntryTest
+    - docker exec fv_web_1 php -f /var/www/html/vendor/bin/phpunit -- --log-junit /test_web/testresults/junit.xml -c /var/www/html/dev/tests/unit/phpunit.xml.dist --filter ToolbarEntryTest
 
   post_ci:
     - cp -R /test_container/testresults/* $SHIPPABLE_BUILD_DIR/shippable/testresults/    #copy test result from host into build container
