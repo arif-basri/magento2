@@ -24,4 +24,4 @@ cp shippable/developer/crontab /etc/cron.d/magento2-cron
 chmod 0644 /etc/cron.d/magento2-cron 
 crontab -u www-data /etc/cron.d/magento2-cron   
 
-a2enmod rewrite
+# a2enmod rewrite
