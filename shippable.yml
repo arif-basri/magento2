@@ -6,7 +6,7 @@ php:
 env:
   global:
     - REGISTRY_URL=registry.hub.docker.com
-    - IMAGE_REPO=magento3
+    - IMAGE_REPO=magento2_build
     - PROJECT_NAME=firadaboss
     
 build:  
