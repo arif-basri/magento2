@@ -21,7 +21,7 @@ build:
     - cp -R . /app    #copy checked out gitrepo from build container into build host for sharing with other containers spawned by the docker-compose    
     #- docker-compose -p fv -f shippable/docker-compose-shippable.yml up -d web db
     - docker build -t fv_web shippable -f shippable/developer/Dockerfile
-    - docker run -d --name fv_web_1 --rm -v /app:/var/www/html fv_web
+    - docker run -d --env-file env --name fv_web_1 --rm -v /app:/var/www/html fv_web
     - sleep 10
     - docker exec fv_web_1 sh -c 'pwd && cd /var/www/html && ls'
     - docker exec fv_web_1 sh -c 'cp /var/www/html/install.sh /usr/local/bin/setup-env && chmod +x /usr/local/bin/setup-env'
